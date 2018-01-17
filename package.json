@@ -1,0 +1,20 @@
+{
+  "name": "gulpset",
+  "version": "1.0.0",
+  "description": "gulp bootstrap",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tg0825",
+  "license": "ISC",
+  "devDependencies": {
+    "fancy-log": "^1.3.2",
+    "git-rev-sync": "^1.9.1",
+    "gulp": "^3.0.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-sass": "^3.1.0",
+    "moment": "^2.20.1"
+  }
+}
