@@ -27,16 +27,33 @@ const banner = [
 ].join("\n");
 
 gulp.task('scss', () => {
-    $.fancyLog("-> Compiling scss");
+    $.fancyLog('-> Compiling scss');
     return gulp.src(pkg.paths.src.scss + pkg.vars.scssName)
         .pipe($.plumber({errorHandler: onError}))
         .pipe($.sourcemaps.init({loadMaps: true}))
         .pipe($.sass({
             includePaths: pkg.paths.scss
         }))
-        .pipe($.cached("sass_logError"))
+        .pipe($.cached('sass_logError'))
         .pipe($.autoprefixer())
         .pipe($.sourcemaps.write('./'))
         .pipe($.size({gzip: true, showFiles: true}))
         .pipe(gulp.dest(pkg.paths.build.css));
+});
+
+gulp.task('css', ['scss'], () => {
+    $.fancyLog('-> Building css');
+    return gulp.src(pkg.globs.distCss)
+        .pipe($.plumber({errorHandler: onError}))
+        .pipe($.newer({dest: pkg.paths.dist.css + pkg.vars.siteCssName}))
+        .pipe($.print())
+        .pipe($.sourcemaps.init({loadMaps: true}))
+        .pipe($.concat(pkg.vars.siteCssName))
+        .pipe($.cssnano())
+        .pipe($.header(banner, {pkg: pkg}))
+        .pipe($.sourcemaps.write('./'))
+        .pipe($.size({gzip: true, showFiles: true}))
+        .pipe(gulp.dest(pkg.paths.dist.css))
+        .pipe($.filter('**/*.css'))
+        .pipe($.livereload());
 });
